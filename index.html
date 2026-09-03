@@ -42,12 +42,13 @@
       statusDiv.innerText = "Processing...";
       submitBtn.disabled = true;
 
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
+      const nameVal = document.getElementById('name').value;
+      const emailVal = document.getElementById('email').value;
 
+      // Nag-insert gamit ang eksaktong column names: 'name' at 'email'
       const { data, error } = await _supabase
         .from('leads')
-        .insert([{ full_name: name, email: email }]);
+        .insert([{ name: nameVal, email: emailVal }]);
 
       if (error) {
         statusDiv.innerText = "Error: " + error.message;
