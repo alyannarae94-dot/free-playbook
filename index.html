@@ -21,8 +21,8 @@
     <h1>Nexus Automations PH</h1>
     <p>Get your Free Autonomous AI Agent Playbook and scale your business today!</p>
     <form id="leadForm">
-      <input type="text" id="name" placeholder="Your Full Name" required />
-      <input type="email" id="email" placeholder="Your Email Address" required />
+      <input type="text" id="nameInput" placeholder="Your Full Name" required />
+      <input type="email" id="emailInput" placeholder="Your Email Address" required />
       <button type="submit" id="submitBtn">Download Free Playbook</button>
     </form>
     <div id="status"></div>
@@ -42,20 +42,21 @@
       statusDiv.innerText = "Processing...";
       submitBtn.disabled = true;
 
-      const nameVal = document.getElementById('name').value;
-      const emailVal = document.getElementById('email').value;
+      const nameVal = document.getElementById('nameInput').value;
+      const emailVal = document.getElementById('emailInput').value;
 
-      // Nag-insert gamit ang eksaktong column names: 'name' at 'email'
+      // Nag-insert gamit ang eksaktong match sa database screen mo: full_name at email
       const { data, error } = await _supabase
         .from('leads')
-        .insert([{ name: nameVal, email: emailVal }]);
+        .insert([{ full_name: nameVal, email: emailVal }]);
 
       if (error) {
         statusDiv.innerText = "Error: " + error.message;
         statusDiv.style.color = "#ef4444";
         submitBtn.disabled = false;
+        console.error("Supabase Error:", error);
       } else {
-        statusDiv.innerText = "Success! Check your email / download starting...";
+        statusDiv.innerText = "Success! Data saved to database.";
         statusDiv.style.color = "#22c55e";
         document.getElementById('leadForm').reset();
         submitBtn.disabled = false;
