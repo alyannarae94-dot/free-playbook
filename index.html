@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nexus Automations PH | Free AI Playbook</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body { font-family: Arial, sans-serif; background-color: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
     .card { background-color: #1e293b; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
@@ -12,6 +13,7 @@
     input { width: 100%; padding: 0.75rem; margin-bottom: 1rem; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #fff; box-sizing: border-box; }
     button { width: 100%; padding: 0.75rem; border-radius: 6px; border: none; background: #0284c7; color: #fff; font-weight: bold; cursor: pointer; }
     button:hover { background: #0369a1; }
+    #status { margin-top: 1rem; font-size: 0.9rem; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -21,8 +23,43 @@
     <form id="leadForm">
       <input type="text" id="name" placeholder="Your Full Name" required />
       <input type="email" id="email" placeholder="Your Email Address" required />
-      <button type="submit">Download Free Playbook</button>
+      <button type="submit" id="submitBtn">Download Free Playbook</button>
     </form>
+    <div id="status"></div>
   </div>
+
+  <script>
+    const SUPABASE_URL = 'https://xahizhszimjrapjjbnpm.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_ZaOBtyq5V7ec9qR5LDxrfQ_iMKj9Fbh';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    document.getElementById('leadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const statusDiv = document.getElementById('status');
+      const submitBtn = document.getElementById('submitBtn');
+
+      statusDiv.style.color = "#38bdf8";
+      statusDiv.innerText = "Processing...";
+      submitBtn.disabled = true;
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+
+      const { data, error } = await _supabase
+        .from('leads')
+        .insert([{ full_name: name, email: email }]);
+
+      if (error) {
+        statusDiv.innerText = "Error: " + error.message;
+        statusDiv.style.color = "#ef4444";
+        submitBtn.disabled = false;
+      } else {
+        statusDiv.innerText = "Success! Check your email / download starting...";
+        statusDiv.style.color = "#22c55e";
+        document.getElementById('leadForm').reset();
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
 </body>
 </html>
