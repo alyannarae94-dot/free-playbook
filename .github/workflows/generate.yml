@@ -2,8 +2,8 @@ name: Generate AI Content
 
 on:
   schedule:
-    - cron: '0 8 * * *' # Tumatakbo araw-araw tuwing 8 AM UTC
-  workflow_dispatch: # Nagbibigay ng button para ma-run mo manually kailan mo gusto
+    - cron: '0 8 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
           python-version: '3.10'
 
       - name: Install dependencies
-        run: pip install requests
+        run: pip install requests google-generativeai
 
       - name: Run content generator script
         env:
