@@ -9,7 +9,8 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
 
 def generate_ai_post():
-    model = genai.GenerativeModel('gemini-pro')
+    # Ginagamit ang gemini-1.5-pro para sa pinakabagong standard ng Google AI Studio
+    model = genai.GenerativeModel('gemini-1.5-pro')
     
     prompt_text = (
         "Write a high-converting, professional, and engaging Facebook page post for 'Nexus Automations PH'. "
