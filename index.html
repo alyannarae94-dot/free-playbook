@@ -33,6 +33,8 @@
     const SUPABASE_ANON_KEY = 'sb_publishable_ZaOBtyq5V7ec9qR5LDxrfQ_iMKj9Fbh';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    const PLAYBOOK_PDF_URL = 'https://raw.githubusercontent.com/alyannarae94-dot/free-playbook/main/Nexus_Automations_Playbook.pdf';
+
     document.getElementById('leadForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const statusDiv = document.getElementById('status');
@@ -45,7 +47,6 @@
       const nameVal = document.getElementById('nameInput').value;
       const emailVal = document.getElementById('emailInput').value;
 
-      // Nag-insert gamit ang eksaktong match sa database screen mo: full_name at email
       const { data, error } = await _supabase
         .from('leads')
         .insert([{ full_name: nameVal, email: emailVal }]);
@@ -54,12 +55,14 @@
         statusDiv.innerText = "Error: " + error.message;
         statusDiv.style.color = "#ef4444";
         submitBtn.disabled = false;
-        console.error("Supabase Error:", error);
       } else {
-        statusDiv.innerText = "Success! Data saved to database.";
+        statusDiv.innerText = "Success! Opening your playbook...";
         statusDiv.style.color = "#22c55e";
         document.getElementById('leadForm').reset();
         submitBtn.disabled = false;
+        
+        // Automatic na bubuksan/ida-download ang PDF sa bagong tab
+        window.open(PLAYBOOK_PDF_URL, '_blank');
       }
     });
   </script>
