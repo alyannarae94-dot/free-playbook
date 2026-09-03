@@ -6,12 +6,12 @@ SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-# I-configure ang opisyal na Gemini SDK
+# I-configure ang opisyal na Gemini SDK gamit ang iyong bagong API key
 genai.configure(api_key=GEMINI_API_KEY)
 
 def generate_ai_post():
-    # Gamitin ang opisyal at pinakabagong Gemini model sa pamamagitan ng SDK
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    # Ginagamit ang gemini-pro para sigurado at unibersal ang suporta
+    model = genai.GenerativeModel('gemini-pro')
     
     prompt_text = (
         "Write a high-converting, professional, and engaging Facebook page post for 'Nexus Automations PH'. "
